@@ -13,6 +13,7 @@ An `lci` instance will consist of three essential parts:
     - Last but not least the workers and other services also need a unify interface to communicate with the central instance server. This is done by exposing a **fully-featured and access-controlled WebSocket-based communication interface**.
 - `worker`:
     - The worker mainly **executes assigned jobs**. These jobs can consist of multiple **stages**, for example **building**, **testing** and **deployment**. The server requests a job execution and provides all relevant data related to it. After then it constantly gets notified about execution updates.
+    - Every pipeline job execution will happen in a **Docker container** which is started just for this execution. The base image will be `alpine` and the worker will install all required packages needed for every stage as a preparation.
 - `web`
     - I think **a sleak and modern webinterface** should be part of a CI/CD solution, so that is a service I definitely aim at.
 

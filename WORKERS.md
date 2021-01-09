@@ -2,7 +2,7 @@
 
 ## Persistent data model
 Every worker has a fixed and permanent `id` which both represents a unique identification method and its sorting ID. It is changeable, however only to a value that is not used yet. If you want to swap the IDs of two workers, you first of all need to change the ID of one of them to a free one.
-It also has a randomly generated and hashed stored `token` which is used to establish a connection in the name of thet worker. This token cannot be copied after the initial creation, so you would have to regenerate it if needed.
+It also has a randomly generated and hashed stored `token` which is used to establish a connection in the name of that worker. This token cannot be copied after the initial creation, so you would have to regenerate it if needed.
 There will be a list of whitelisted IPs too, however it is optional. If at least one IP is added to that list, only incoming connections from one of these are allowed. This does **not** affect the requirement of the secret token.
 
 ## Connections
@@ -32,4 +32,4 @@ Once received, the worker acknowledges the request retrieval and starts working 
 2. The **running** stage basically consist of all pipeline stages. These get executed in the defined row and commands get edited beforehand to include secrets. After every successful stage execution all defined artifacts get pushed into a local job-wide artifact storage. If enabled, all occurances of secrets in the log output get removed before handing out these. After running all stages the worker marks the job as complete and returns all relevant resulting data like artifacts.
 3. The **cleanup** stage runs after the execution itself. It stops the Docker container, removes it and the used image and generally tydies up the worker.
 
-**Note:** These stages are **worker stages**. The **job stages** are split up into the first two parts of it: **preparation** and **running** (the second split up into the single pipeline stages). During these two parts of the worker stage a job is currently being worked on and so the worker constantly pushed updates (logs and job status) to the server. After the running stage the job is being marked as done, but the worker itself is not available yet as it has to run through the cleanup stage.
+**Note:** These stages are **worker stages**. The **job stages** are split up into the first two parts of it: **preparation** and **running** (the second split up into the single pipeline stages). During these two parts of the worker stage a job is currently being worked on and so the worker constantly pushes updates (logs and job status) to the server. After the running stage the job is being marked as done, but the worker itself is not available yet as it has to run through the cleanup stage.
